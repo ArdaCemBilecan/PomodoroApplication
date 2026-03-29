@@ -15,6 +15,7 @@
     "@capacitor/core": "^8.3.0",
     "@capacitor/haptics": "^8.0.1",
     "@capacitor/local-notifications": "^8.0.2",
+    "@capacitor/network": "^8.0.1",
     "@capacitor/status-bar": "^8.0.2",
     "@ionic/react": "^8.8.2",
     "@ionic/react-router": "^8.8.2",
@@ -24,6 +25,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^5.3.4",
+    "react-youtube": "^10.1.0",
     "recharts": "^3.8.1",
     "zustand": "^5.0.12"
   },

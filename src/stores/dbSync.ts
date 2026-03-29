@@ -46,14 +46,20 @@ async function loadSettingsFromDB(): Promise<void> {
     if (dbSettings.sessions_before_long_break) {
       settingsMap.sessionsBeforeLongBreak = parseInt(dbSettings.sessions_before_long_break);
     }
-    if (dbSettings.lofi_volume) {
-      settingsMap.lofiVolume = parseInt(dbSettings.lofi_volume);
+    if (dbSettings.current_radio_id) {
+      settingsMap.currentRadioId = dbSettings.current_radio_id === 'null' ? null : dbSettings.current_radio_id;
     }
-    if (dbSettings.whitenoise_volume) {
-      settingsMap.whitenoiseVolume = parseInt(dbSettings.whitenoise_volume);
+    if (dbSettings.radio_volume) {
+      settingsMap.radioVolume = parseInt(dbSettings.radio_volume);
     }
-    if (dbSettings.sound_preset) {
-      settingsMap.soundPreset = dbSettings.sound_preset;
+    if (dbSettings.ambient_rain_volume) {
+      settingsMap.ambientRainVolume = parseInt(dbSettings.ambient_rain_volume);
+    }
+    if (dbSettings.ambient_fire_volume) {
+      settingsMap.ambientFireVolume = parseInt(dbSettings.ambient_fire_volume);
+    }
+    if (dbSettings.ambient_birds_volume) {
+      settingsMap.ambientBirdsVolume = parseInt(dbSettings.ambient_birds_volume);
     }
     if (dbSettings.theme) {
       settingsMap.theme = dbSettings.theme;

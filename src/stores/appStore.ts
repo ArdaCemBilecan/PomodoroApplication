@@ -24,9 +24,11 @@ export interface SettingsState {
   shortBreakDuration: number;
   longBreakDuration: number;
   sessionsBeforeLongBreak: number;
-  lofiVolume: number;         // 0-100
-  whitenoiseVolume: number;   // 0-100
-  soundPreset: string;
+  currentRadioId: string | null;  // YouTube Video ID
+  radioVolume: number;            // 0-100
+  ambientRainVolume: number;      // 0-100
+  ambientFireVolume: number;      // 0-100
+  ambientBirdsVolume: number;     // 0-100
   theme: string;
 }
 
@@ -47,8 +49,9 @@ export interface AppState {
 
   // Settings Actions
   updateSettings: (settings: Partial<SettingsState>) => void;
-  setLofiVolume: (volume: number) => void;
-  setWhitenoiseVolume: (volume: number) => void;
+  setRadioVolume: (volume: number) => void;
+  setAmbientVolume: (id: string, volume: number) => void;
+  setRadioId: (id: string | null) => void;
 
   // Utility
   resetTimer: () => void;
@@ -69,9 +72,11 @@ const DEFAULT_SETTINGS: SettingsState = {
   shortBreakDuration: 5,
   longBreakDuration: 15,
   sessionsBeforeLongBreak: 4,
-  lofiVolume: 50,
-  whitenoiseVolume: 0,
-  soundPreset: 'rain',
+  currentRadioId: null,
+  radioVolume: 50,
+  ambientRainVolume: 0,
+  ambientFireVolume: 0,
+  ambientBirdsVolume: 0,
   theme: 'forest',
 };
 
@@ -152,11 +157,20 @@ export const useAppStore = create<AppState>()(
       updateSettings: (newSettings) =>
         set({ settings: { ...get().settings, ...newSettings } }),
 
-      setLofiVolume: (volume) =>
-        set({ settings: { ...get().settings, lofiVolume: volume } }),
+      setRadioVolume: (volume) =>
+        set({ settings: { ...get().settings, radioVolume: volume } }),
 
-      setWhitenoiseVolume: (volume) =>
-        set({ settings: { ...get().settings, whitenoiseVolume: volume } }),
+      setAmbientVolume: (id, volume) => {
+        const settings = get().settings;
+        let update = {};
+        if (id === 'rain') update = { ambientRainVolume: volume };
+        else if (id === 'fire') update = { ambientFireVolume: volume };
+        else if (id === 'birds') update = { ambientBirdsVolume: volume };
+        set({ settings: { ...settings, ...update } });
+      },
+
+      setRadioId: (id) =>
+        set({ settings: { ...get().settings, currentRadioId: id } }),
 
       // Utility
       resetTimer: () => {

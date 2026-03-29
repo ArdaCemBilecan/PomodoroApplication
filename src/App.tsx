@@ -11,6 +11,7 @@ import { database } from './core/capacitor/Database';
 import { backgroundTimer } from './core/capacitor/BackgroundTimer';
 import { audioEngine } from './core/capacitor/AudioEngine';
 import { initDBSync } from './stores/dbSync';
+import RadioPlayer from './features/audio/components/RadioPlayer';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
+      <RadioPlayer />
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/timer" component={TimerPage} />

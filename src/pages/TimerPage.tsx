@@ -1,9 +1,16 @@
 import {
   IonPage,
   IonContent,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonModal,
 } from '@ionic/react';
+import { musicalNotesOutline, closeOutline } from 'ionicons/icons';
+import { useState } from 'react';
 import { useTimer } from '../features/timer/hooks/useTimer';
 import TimerCircle from '../features/timer/components/TimerCircle';
+import AudioMixer from '../features/audio/components/AudioMixer';
 import './TimerPage.css';
 
 const TimerPage: React.FC = () => {
@@ -19,6 +26,7 @@ const TimerPage: React.FC = () => {
   } = useTimer();
 
   const showExtend = timer.status === 'running' && timer.timeLeftMs < 60 * 1000;
+  const [showMixerModal, setShowMixerModal] = useState(false);
 
   return (
     <IonPage>
@@ -117,6 +125,34 @@ const TimerPage: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* Audio Modal Fab */}
+        <IonFab vertical="bottom" horizontal="end" slot="fixed" style={{ margin: '16px' }}>
+          <IonFabButton color="dark" onClick={() => setShowMixerModal(true)}>
+            <IonIcon icon={musicalNotesOutline} />
+          </IonFabButton>
+        </IonFab>
+
+        <IonModal
+          isOpen={showMixerModal}
+          onDidDismiss={() => setShowMixerModal(false)}
+          breakpoints={[0, 0.5, 0.8]}
+          initialBreakpoint={0.5}
+          className="audio-mixer-modal"
+          style={{ '--background': 'transparent' }}
+        >
+          <div style={{ padding: '16px', background: 'transparent' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
+              <button 
+                onClick={() => setShowMixerModal(false)}
+                style={{ background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff', padding: '8px', borderRadius: '50%' }}
+              >
+                <IonIcon icon={closeOutline} size="large" />
+              </button>
+            </div>
+            <AudioMixer />
+          </div>
+        </IonModal>
       </IonContent>
     </IonPage>
   );
