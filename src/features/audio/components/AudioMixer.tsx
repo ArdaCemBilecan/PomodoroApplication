@@ -3,44 +3,19 @@ import { IonIcon, IonRange, IonLabel } from '@ionic/react';
 import { volumeMediumOutline, playOutline, pauseOutline } from 'ionicons/icons';
 import { useAppStore } from '../../../stores/appStore';
 import { RADIO_STATIONS } from '../constants/radioStations';
-import { AMBIENT_SOUNDS, initSoundscapes, updateAmbientVolume } from '../Soundscapes';
 import './AudioMixer.css';
 
 const AudioMixer: React.FC = () => {
-  const { settings, setRadioId, setRadioVolume, setAmbientVolume } = useAppStore();
-  const { currentRadioId, radioVolume, ambientRainVolume, ambientFireVolume, ambientBirdsVolume } = settings;
-
-  // Initialize howler sounds
-  useEffect(() => {
-    initSoundscapes();
-  }, []);
-
-  // Sync ambient volumes to Howler engine
-  useEffect(() => {
-    updateAmbientVolume('rain', ambientRainVolume);
-    updateAmbientVolume('fire', ambientFireVolume);
-    updateAmbientVolume('birds', ambientBirdsVolume);
-  }, [ambientRainVolume, ambientFireVolume, ambientBirdsVolume]);
+  const { settings, setRadioId, setRadioVolume } = useAppStore();
+  const { currentRadioId, radioVolume } = settings;
 
   const handleRadioClick = (id: string) => {
     if (currentRadioId === id) {
       // Toggle off manually
       setRadioId(null);
     } else {
-      // Switch or turn on. When doing so, shut off ambient sounds.
+      // Switch or turn on.
       setRadioId(id);
-      setAmbientVolume('rain', 0);
-      setAmbientVolume('fire', 0);
-      setAmbientVolume('birds', 0);
-    }
-  };
-
-  const getAmbientVol = (id: string) => {
-    switch (id) {
-      case 'rain': return ambientRainVolume;
-      case 'fire': return ambientFireVolume;
-      case 'birds': return ambientBirdsVolume;
-      default: return 0;
     }
   };
 
@@ -77,37 +52,6 @@ const AudioMixer: React.FC = () => {
           />
         </div>
       </div>
-
-      <div className="mixer-divider" />
-
-      {/* Ambient Section */}
-      <div className="mixer-section">
-        <h3 className="mixer-title">🏕️ Çevrimdışı Ambiyans</h3>
-        
-        <div className={`ambient-sliders ${currentRadioId ? 'disabled-overlay' : ''}`}>
-          {currentRadioId && (
-            <div className="disabled-message">
-              Radyo çalarken ambiyans sesleri devre dışıdır.
-            </div>
-          )}
-
-          {AMBIENT_SOUNDS.map((sound) => (
-            <div key={sound.id} className="ambient-row">
-              <span className="ambient-icon">{sound.emoji}</span>
-              <IonLabel className="ambient-label">{sound.name}</IonLabel>
-              <IonRange
-                min={0}
-                max={100}
-                value={getAmbientVol(sound.id)}
-                disabled={!!currentRadioId}
-                onIonInput={(e) => setAmbientVolume(sound.id, e.detail.value as number)}
-                color="success"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
     </div>
   );
 };

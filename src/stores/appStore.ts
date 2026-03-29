@@ -26,9 +26,6 @@ export interface SettingsState {
   sessionsBeforeLongBreak: number;
   currentRadioId: string | null;  // YouTube Video ID
   radioVolume: number;            // 0-100
-  ambientRainVolume: number;      // 0-100
-  ambientFireVolume: number;      // 0-100
-  ambientBirdsVolume: number;     // 0-100
   theme: string;
 }
 
@@ -50,7 +47,6 @@ export interface AppState {
   // Settings Actions
   updateSettings: (settings: Partial<SettingsState>) => void;
   setRadioVolume: (volume: number) => void;
-  setAmbientVolume: (id: string, volume: number) => void;
   setRadioId: (id: string | null) => void;
 
   // Utility
@@ -74,9 +70,6 @@ const DEFAULT_SETTINGS: SettingsState = {
   sessionsBeforeLongBreak: 4,
   currentRadioId: null,
   radioVolume: 50,
-  ambientRainVolume: 0,
-  ambientFireVolume: 0,
-  ambientBirdsVolume: 0,
   theme: 'forest',
 };
 
@@ -159,15 +152,6 @@ export const useAppStore = create<AppState>()(
 
       setRadioVolume: (volume) =>
         set({ settings: { ...get().settings, radioVolume: volume } }),
-
-      setAmbientVolume: (id, volume) => {
-        const settings = get().settings;
-        let update = {};
-        if (id === 'rain') update = { ambientRainVolume: volume };
-        else if (id === 'fire') update = { ambientFireVolume: volume };
-        else if (id === 'birds') update = { ambientBirdsVolume: volume };
-        set({ settings: { ...settings, ...update } });
-      },
 
       setRadioId: (id) =>
         set({ settings: { ...get().settings, currentRadioId: id } }),

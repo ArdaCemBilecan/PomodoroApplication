@@ -52,15 +52,6 @@ async function loadSettingsFromDB(): Promise<void> {
     if (dbSettings.radio_volume) {
       settingsMap.radioVolume = parseInt(dbSettings.radio_volume);
     }
-    if (dbSettings.ambient_rain_volume) {
-      settingsMap.ambientRainVolume = parseInt(dbSettings.ambient_rain_volume);
-    }
-    if (dbSettings.ambient_fire_volume) {
-      settingsMap.ambientFireVolume = parseInt(dbSettings.ambient_fire_volume);
-    }
-    if (dbSettings.ambient_birds_volume) {
-      settingsMap.ambientBirdsVolume = parseInt(dbSettings.ambient_birds_volume);
-    }
     if (dbSettings.theme) {
       settingsMap.theme = dbSettings.theme;
     }
