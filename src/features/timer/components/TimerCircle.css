@@ -1,0 +1,76 @@
+/* TimerCircle.css */
+
+.timer-circle-wrapper {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  z-index: 1;
+}
+
+.timer-circle-wrapper.breathing {
+  animation: breathe 4s infinite ease-in-out;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.timer-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.3));
+  transition: filter 0.5s ease;
+}
+
+/* Mode-specific glow colors */
+.timer-circle-wrapper.mode-shortBreak .timer-svg {
+  filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.3));
+}
+
+.timer-circle-wrapper.mode-longBreak .timer-svg {
+  filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.3));
+}
+
+.progress-ring {
+  transition: stroke-dashoffset 0.15s linear;
+}
+
+.timer-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.timer-time {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.timer-mode-label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-top: 4px;
+  transition: color 0.3s ease;
+}
+
+.mode-pomodoro {
+  color: rgba(74, 222, 128, 0.8);
+}
+
+.mode-shortBreak {
+  color: rgba(96, 165, 250, 0.8);
+}
+
+.mode-longBreak {
+  color: rgba(251, 191, 36, 0.8);
+}

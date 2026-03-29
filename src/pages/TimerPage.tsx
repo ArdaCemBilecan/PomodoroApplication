@@ -2,12 +2,25 @@ import {
   IonPage,
   IonContent,
 } from '@ionic/react';
-import { formatTime } from '../core/utils/TimeUtils';
+import { useTimer } from '../features/timer/hooks/useTimer';
 import { useAppStore } from '../stores/appStore';
+import TimerCircle from '../features/timer/components/TimerCircle';
 import './TimerPage.css';
 
 const TimerPage: React.FC = () => {
-  const { timer } = useAppStore();
+  const {
+    timer,
+    settings,
+    progress,
+    toggleTimer,
+    resetTimer,
+    extendTimerBy5,
+    switchMode,
+  } = useTimer();
+
+  const toggleFlowMode = useAppStore((s) => s.toggleFlowMode);
+
+  const showExtend = timer.status === 'running' && timer.timeLeftMs < 60 * 1000;
 
   return (
     <IonPage>
@@ -19,62 +32,91 @@ const TimerPage: React.FC = () => {
             <div className="leaf leaf-2">🍂</div>
             <div className="leaf leaf-3">🌿</div>
             <div className="leaf leaf-4">🍃</div>
+            <div className="leaf leaf-5">🌱</div>
+          </div>
+
+          {/* Mode Selector */}
+          <div className="mode-selector">
+            <button
+              className={`mode-btn ${timer.mode === 'pomodoro' ? 'active' : ''}`}
+              onClick={() => switchMode('pomodoro')}
+            >
+              Odaklan
+            </button>
+            <button
+              className={`mode-btn ${timer.mode === 'shortBreak' ? 'active' : ''}`}
+              onClick={() => switchMode('shortBreak')}
+            >
+              Kısa Mola
+            </button>
+            <button
+              className={`mode-btn ${timer.mode === 'longBreak' ? 'active' : ''}`}
+              onClick={() => switchMode('longBreak')}
+            >
+              Uzun Mola
+            </button>
           </div>
 
           {/* Timer Circle */}
-          <div className="timer-circle-wrapper">
-            <svg className="timer-svg" viewBox="0 0 280 280">
-              {/* Background circle */}
-              <circle
-                cx="140"
-                cy="140"
-                r="130"
-                fill="none"
-                stroke="rgba(74, 222, 128, 0.1)"
-                strokeWidth="8"
-              />
-              {/* Progress circle */}
-              <circle
-                cx="140"
-                cy="140"
-                r="130"
-                fill="none"
-                stroke="url(#timerGradient)"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 130}`}
-                strokeDashoffset={`${2 * Math.PI * 130 * (1 - timer.timeLeftMs / (25 * 60 * 1000))}`}
-                transform="rotate(-90 140 140)"
-                className="progress-ring"
-              />
-              <defs>
-                <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#4ade80" />
-                  <stop offset="100%" stopColor="#22c55e" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="timer-display">
-              <span className="timer-time">{formatTime(timer.timeLeftMs)}</span>
-              <span className="timer-mode">
-                {timer.mode === 'pomodoro' ? 'Odaklan' : 
-                 timer.mode === 'shortBreak' ? 'Kısa Mola' : 'Uzun Mola'}
-              </span>
-            </div>
-          </div>
+          <TimerCircle
+            timeLeftMs={timer.timeLeftMs}
+            progress={progress}
+            mode={timer.mode}
+            isRunning={timer.status === 'running'}
+          />
 
           {/* Controls */}
           <div className="timer-controls">
-            <button className="control-btn primary-btn">
+            {/* Reset button */}
+            {timer.status !== 'idle' && (
+              <button
+                className="control-btn secondary-btn"
+                onClick={resetTimer}
+                title="Sıfırla"
+              >
+                ↺
+              </button>
+            )}
+
+            {/* Play/Pause button */}
+            <button
+              className={`control-btn primary-btn ${timer.status === 'running' ? 'running' : ''}`}
+              onClick={toggleTimer}
+            >
               {timer.status === 'running' ? '⏸' : '▶'}
+            </button>
+
+            {/* Extend +5 min button (visible when timer < 1 min) */}
+            {showExtend && (
+              <button
+                className="control-btn extend-btn"
+                onClick={extendTimerBy5}
+                title="+5 dakika"
+              >
+                +5
+              </button>
+            )}
+          </div>
+
+          {/* Flow Mode Toggle */}
+          <div className="flow-mode-section">
+            <button
+              className={`flow-btn ${timer.flowModeEnabled ? 'active neon-glow' : ''}`}
+              onClick={toggleFlowMode}
+            >
+              <span className="flow-icon">⚡</span>
+              <span className="flow-text">Flow Modu</span>
             </button>
           </div>
 
           {/* Status */}
           <div className="timer-status">
             <span className="session-count">
-              Seans: {timer.sessionsCompleted}/4
+              Seans: {timer.sessionsCompleted}/{settings.sessionsBeforeLongBreak}
             </span>
+            {timer.flowModeEnabled && (
+              <span className="flow-indicator">⚡ Flow Mode</span>
+            )}
           </div>
         </div>
       </IonContent>
