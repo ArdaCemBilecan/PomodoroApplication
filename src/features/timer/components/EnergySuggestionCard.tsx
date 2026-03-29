@@ -53,11 +53,11 @@ const EnergySuggestionCard: React.FC = () => {
       <div 
         className="energy-active-indicator fade-in" 
         onClick={() => setEnergyLevel(null)}
-        title="Enerji seviyesini değiştirmek için tıkla"
+        title="Click to change energy level"
         style={{ cursor: 'pointer' }}
       >
         <IonIcon icon={flash} className="energy-icon-small" />
-        <span>Enerji: {timer.energyLevel}/5</span>
+        <span>Energy: {timer.energyLevel}/5</span>
       </div>
     );
   }
@@ -66,7 +66,7 @@ const EnergySuggestionCard: React.FC = () => {
     <div className="energy-card fade-in">
       {!suggestion ? (
         <div className="energy-question-phase">
-          <h4 className="energy-title">Şu an nasıl hissediyorsun?</h4>
+          <h4 className="energy-title">How are you feeling right now?</h4>
           <div className="energy-bolts">
             {[1, 2, 3, 4, 5].map((level) => (
               <IonIcon
@@ -81,7 +81,7 @@ const EnergySuggestionCard: React.FC = () => {
               />
             ))}
           </div>
-          <p className="energy-subtitle">Enerjine göre süreyi optimize edelim</p>
+          <p className="energy-subtitle">Let's optimize the timer for your energy</p>
         </div>
       ) : (
         <div className="energy-suggestion-phase fade-in">
@@ -91,13 +91,13 @@ const EnergySuggestionCard: React.FC = () => {
           </div>
           
           <div className="suggestion-details">
-            <span className="detail-badge highlight">🎯 Odak: {suggestion.focusDuration} dk</span>
-            <span className="detail-badge">☕ Mola: {suggestion.shortBreakDuration} dk</span>
+            <span className="detail-badge highlight">🎯 Focus: {suggestion.focusDuration} min</span>
+            <span className="detail-badge">☕ Break: {suggestion.shortBreakDuration} min</span>
           </div>
 
           <div className="suggestion-actions">
-            <button className="btn-reject" onClick={handleReject}>Vazgeç</button>
-            <button className="btn-accept" onClick={handleAccept}>Süreyi Güncelle</button>
+            <button className="btn-reject" onClick={handleReject}>Cancel</button>
+            <button className="btn-accept" onClick={handleAccept}>Update Time</button>
           </div>
         </div>
       )}

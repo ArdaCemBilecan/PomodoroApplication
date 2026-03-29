@@ -18,9 +18,9 @@ const RADIUS = 130;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 const MODE_LABELS: Record<string, string> = {
-  pomodoro: 'ODAKLAN',
-  shortBreak: 'KISA MOLA',
-  longBreak: 'UZUN MOLA',
+  pomodoro: 'FOCUS',
+  shortBreak: 'SHORT BREAK',
+  longBreak: 'LONG BREAK',
 };
 
 const MODE_COLORS: Record<string, { start: string; end: string }> = {

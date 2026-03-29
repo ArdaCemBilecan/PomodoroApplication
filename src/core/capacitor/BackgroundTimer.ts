@@ -95,8 +95,8 @@ class BackgroundTimerService {
       await LocalNotifications.schedule({
         notifications: [
           {
-            title: '🍅 Pomodoro Tamamlandı!',
-            body: 'Harika iş çıkardın! Mola zamanı.',
+            title: '🍅 Pomodoro Finished!',
+            body: 'Great job! Time for a break.',
             id: Date.now(),
             channelId: 'pomodoro_timer',
             schedule: { at: new Date() },
@@ -114,8 +114,8 @@ class BackgroundTimerService {
    * Mola hatırlatma bildirimi
    */
   async sendBreakNotification(breakType: 'short' | 'long'): Promise<void> {
-    const title = breakType === 'short' ? '☕ Kısa Mola Bitti!' : '🌿 Uzun Mola Bitti!';
-    const body = 'Odaklanmaya hazır mısın?';
+    const title = breakType === 'short' ? '☕ Short Break Finished!' : '🌿 Long Break Finished!';
+    const body = 'Ready to focus?';
 
     try {
       await LocalNotifications.schedule({

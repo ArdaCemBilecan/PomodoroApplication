@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonPage, IonContent } from '@ionic/react';
 import { database } from '../core/capacitor/Database';
-import WeeklyBarChart from '../features/analytics/components/WeeklyBarChart';
+import MonthlyBarChart from '../features/analytics/components/MonthlyBarChart';
 import './AnalyticsPage.css';
 
 const AnalyticsPage: React.FC = () => {
@@ -10,7 +10,7 @@ const AnalyticsPage: React.FC = () => {
   useEffect(() => {
     // Initial fetch of some stats to show
     const fetchStats = async () => {
-      const stats = await database.getDailyStats(7); // Son 7 gün
+      const stats = await database.getDailyStats(31); // Son 31 gün (aylık)
       const total = stats.reduce((acc, curr) => acc + curr.total_focus_minutes, 0);
       setTotalFocus(total);
     };
@@ -30,16 +30,16 @@ const AnalyticsPage: React.FC = () => {
             <div className="leaf leaf-5">🌱</div>
           </div>
 
-          <h1 className="analytics-title">Ormanın Bilgeliği 🌳</h1>
-          <p className="analytics-subtitle">Son 7 günlük orman keşiflerin</p>
+          <h1 className="analytics-title">Forest Wisdom 🌳</h1>
+          <p className="analytics-subtitle">Your forest explorations this month</p>
           
           <div className="stats-highlight-card glow">
-            <h3>Bu Hafta Toplanan Odak 🍃</h3>
-            <h2>{totalFocus} dk</h2>
+            <h3>Focus Gathered This Month 🍃</h3>
+            <h2>{totalFocus} min</h2>
           </div>
 
           <div className="chart-placeholder">
-            <WeeklyBarChart />
+            <MonthlyBarChart />
           </div>
         </div>
       </IonContent>

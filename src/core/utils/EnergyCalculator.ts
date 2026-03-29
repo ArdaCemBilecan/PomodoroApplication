@@ -121,37 +121,37 @@ export const calculateOptimalFlow = (
       return {
         focusDuration: 10,
         shortBreakDuration: 5,
-        message: 'Tükenmiş görünüyorsun. Yorucu bir seans yerine ısınma niteliğinde 10 dakikalık hızlı bir odaklanma yapalım.',
+        message: 'You look exhausted. Let\'s do a quick 10-minute warm-up session instead of a tiring one.',
       };
     case 2:
       return {
         focusDuration: 15,
         shortBreakDuration: 5,
-        message: 'Enerjin biraz düşük. Kendini zorlamak yerine 15 dakikalık hafif bir seansla başlamaya ne dersin?',
+        message: 'Your energy is a bit low. How about a light 15-minute session to get started?',
       };
     case 3:
       return {
         focusDuration: 25,
         shortBreakDuration: 5,
-        message: 'Normal enerjidesin! 25 dakikalık standart Pomodoro seansıyla devam etmek en iyisi.',
+        message: 'You have normal energy! It\'s best to continue with a standard 25-minute Pomodoro session.',
       };
     case 4:
       return {
         focusDuration: 40,
         shortBreakDuration: 10,
-        message: 'Harika hissediyorsun! Odak noktanı kaybetmeden 40 dakikalık derin bir çalışmaya var mısın?',
+        message: 'You are feeling great! Ready for a deep 40-minute work session without losing focus?',
       };
     case 5:
       return {
         focusDuration: 50,
         shortBreakDuration: 10,
-        message: 'Enerjin tavan yapmış! Akışa girelim ve seni hiç bölmeyelim. 50 dakikalık devasa bir seans başlasın!',
+        message: 'Your energy is peaking! Let\'s get into the flow with a massive 50-minute session!',
       };
     default:
       return {
         focusDuration: defaultFocus,
         shortBreakDuration: defaultBreak,
-        message: 'Standart ayarlarla devam edelim.',
+        message: 'Let\'s continue with standard settings.',
       };
   }
 };

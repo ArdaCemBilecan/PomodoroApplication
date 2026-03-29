@@ -49,19 +49,19 @@ const TimerPage: React.FC = () => {
               className={`mode-btn ${timer.mode === 'pomodoro' ? 'active' : ''}`}
               onClick={() => switchMode('pomodoro')}
             >
-              Odaklan
+              Focus
             </button>
             <button
               className={`mode-btn ${timer.mode === 'shortBreak' ? 'active' : ''}`}
               onClick={() => switchMode('shortBreak')}
             >
-              Kısa Mola
+              Short Break
             </button>
             <button
               className={`mode-btn ${timer.mode === 'longBreak' ? 'active' : ''}`}
               onClick={() => switchMode('longBreak')}
             >
-              Uzun Mola
+              Long Break
             </button>
           </div>
 
@@ -71,7 +71,7 @@ const TimerPage: React.FC = () => {
           {/* Break Reminders & Breathing Guide */}
           {timer.mode === 'longBreak' && (
             <div className="movement-reminder fade-in">
-              🌿 Lütfen oturduğunuz yerden kalkın ve azıcık hareket edin! Bedeninizin de molaya ihtiyacı var.
+              🌿 Please stand up and move around! Your body needs a break too.
             </div>
           )}
           {timer.mode !== 'pomodoro' && (
@@ -93,7 +93,7 @@ const TimerPage: React.FC = () => {
               <button
                 className="control-btn secondary-btn"
                 onClick={resetTimer}
-                title="Sıfırla"
+                title="Reset"
               >
                 ↺
               </button>
@@ -112,7 +112,7 @@ const TimerPage: React.FC = () => {
               <button
                 className="control-btn extend-btn"
                 onClick={extendTimerBy5}
-                title="+5 dakika"
+                title="+5 Minutes"
               >
                 +5
               </button>
@@ -126,14 +126,14 @@ const TimerPage: React.FC = () => {
               onClick={handleFlowToggle}
             >
               <span className="flow-icon">⚡</span>
-              <span className="flow-text">Flow Modu</span>
+              <span className="flow-text">Flow Mode</span>
             </button>
           </div>
 
           {/* Status */}
           <div className="timer-status">
             <span className="session-count">
-              Seans: {timer.sessionsCompleted}/{settings.sessionsBeforeLongBreak}
+              Session: {timer.sessionsCompleted}/{settings.sessionsBeforeLongBreak}
             </span>
             {timer.flowModeEnabled && (
               <span className="flow-indicator">⚡ Flow Mode</span>

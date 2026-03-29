@@ -59,10 +59,10 @@ const BreathingGuide: React.FC = () => {
   };
 
   const getInstruction = () => {
-    if (phase === 'idle') return 'Rahatlamak İçin Başla';
-    if (phase === 'inhale') return 'Nefes Al (4s)';
-    if (phase === 'hold') return 'Nefes Tut (7s)';
-    if (phase === 'exhale') return 'Nefes Ver (8s)';
+    if (phase === 'idle') return 'Start to Relax';
+    if (phase === 'inhale') return 'Inhale (4s)';
+    if (phase === 'hold') return 'Hold (7s)';
+    if (phase === 'exhale') return 'Exhale (8s)';
     return '';
   };
 
@@ -75,7 +75,7 @@ const BreathingGuide: React.FC = () => {
         <div className="breathing-content">
           <h4>{getInstruction()}</h4>
           {phase !== 'idle' && <h1 className="breath-timer">{timeLeft}</h1>}
-          {phase === 'idle' && <p className="breath-subtitle">4-7-8 Tekniği</p>}
+          {phase === 'idle' && <p className="breath-subtitle">4-7-8 Technique</p>}
         </div>
       </div>
     </div>

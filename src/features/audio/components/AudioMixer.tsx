@@ -24,7 +24,7 @@ const AudioMixer: React.FC = () => {
       
       {/* Radio Section */}
       <div className="mixer-section">
-        <h3 className="mixer-title">📻 Lofi & Radyolar (YouTube)</h3>
+        <h3 className="mixer-title">📻 Lofi & Radios (YouTube)</h3>
         
         <div className="radio-chips-container">
           {RADIO_STATIONS.map((station) => (

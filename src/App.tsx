@@ -55,12 +55,12 @@ const App: React.FC = () => {
           <IonTabBar slot="bottom" className="app-tab-bar">
             <IonTabButton tab="timer" href="/timer">
               <IonIcon icon={timerOutline} />
-              <IonLabel>Sayaç</IonLabel>
+              <IonLabel>Timer</IonLabel>
             </IonTabButton>
             
             <IonTabButton tab="analytics" href="/analytics">
               <IonIcon icon={barChartOutline} />
-              <IonLabel>İstatistik</IonLabel>
+              <IonLabel>Analytics</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
