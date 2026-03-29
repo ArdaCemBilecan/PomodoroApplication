@@ -38,7 +38,11 @@ const WeeklyBarChart: React.FC = () => {
           };
         });
 
-        const maxMins = Math.max(...filledStats.map(s => s.total_focus_minutes), 30); // minimum scale is 30 mins
+        const highestMins = Math.max(...filledStats.map(s => s.total_focus_minutes), 30);
+        let maxMins = 60;
+        if (highestMins > 60) {
+          maxMins = Math.ceil(highestMins / 60) * 60;
+        }
         setMaxMinutes(maxMins);
         setStats(filledStats);
       } catch (e) {
@@ -56,11 +60,19 @@ const WeeklyBarChart: React.FC = () => {
     return dayNames[d.getDay()];
   };
 
+  const formatMinsToHours = (mins: number) => {
+    if (mins === 0) return '0m';
+    if (mins < 60) return `${mins}m`;
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return m > 0 ? `${h}h ${m}m` : `${h}h`;
+  };
+
   return (
     <div className="bar-chart-container fade-in">
       <div className="chart-y-axis">
-        <span className="y-label">{maxMinutes}m</span>
-        <span className="y-label">{Math.floor(maxMinutes/2)}m</span>
+        <span className="y-label">{formatMinsToHours(maxMinutes)}</span>
+        <span className="y-label">{formatMinsToHours(maxMinutes / 2)}</span>
         <span className="y-label">0m</span>
       </div>
       
@@ -82,7 +94,7 @@ const WeeklyBarChart: React.FC = () => {
                   className={`bar-fill ${isToday ? 'today-barglow' : ''}`}
                   style={{ height: `${heightPercent}%` }}
                 >
-                  <div className="bar-tooltip">{stat.total_focus_minutes} dk</div>
+                  <div className="bar-tooltip">{formatMinsToHours(stat.total_focus_minutes)}</div>
                 </div>
                 <div className={`bar-label ${isToday ? 'label-today' : ''}`}>
                   {formatDayName(stat.date)}
