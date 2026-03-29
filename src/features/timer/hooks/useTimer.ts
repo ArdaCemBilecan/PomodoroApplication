@@ -19,6 +19,7 @@ export function useTimer() {
     setTimerMode,
     incrementSessions,
     extendTimer,
+    toggleFlowMode,
   } = useAppStore();
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -193,7 +194,7 @@ export function useTimer() {
       intervalRef.current = null;
     }
     const currentMode = useAppStore.getState().timer.mode;
-    setTimerMode(currentMode); // Mode'u tekrar set et (süreyi sıfırlar)
+    setTimerMode(currentMode, true); // Mode'u tekrar set et ve flow mode'u sıfırla
     setTimerStatus('idle');
     console.log('[Timer] Reset');
   }, [setTimerMode, setTimerStatus]);
@@ -207,32 +208,49 @@ export function useTimer() {
     console.log('[Timer] Extended by 5 minutes');
   }, [extendTimer]);
 
+  // Flow Mode toggle: +5dk ekle/çıkar ve çalışan timer'ı güncelle
+  const handleFlowToggle = useCallback(() => {
+    const isCurrentlyEnabled = useAppStore.getState().timer.flowModeEnabled;
+    const delta = isCurrentlyEnabled ? -5 * 60 * 1000 : 5 * 60 * 1000;
+    
+    // Store'daki toggle'ı çağır (timeLeftMs'i de günceller)
+    toggleFlowMode();
+    
+    // Eğer timer çalışıyorsa, endTimeRef'i de güncelle
+    if (intervalRef.current) {
+      endTimeRef.current += delta;
+    }
+    
+    console.log(`[Timer] Flow mode ${isCurrentlyEnabled ? 'disabled' : 'enabled'} (${isCurrentlyEnabled ? '-5' : '+5'} min)`);
+  }, [toggleFlowMode]);
+
   // Mode değiştir
   const switchMode = useCallback((mode: TimerMode) => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    setTimerMode(mode);
+    setTimerMode(mode, true); // Sekme değiştiğinde flow modunu sıfırla
     setTimerStatus('idle');
   }, [setTimerMode, setTimerStatus]);
 
   // Timer'ın toplam süresini hesapla (progress bar için)
   const getTotalDuration = useCallback((): number => {
+    const flowBonus = timer.flowModeEnabled ? 5 * 60 * 1000 : 0;
     switch (timer.mode) {
       case 'pomodoro':
-        return settings.pomodoroDuration * 60 * 1000;
+        return settings.pomodoroDuration * 60 * 1000 + flowBonus;
       case 'shortBreak':
         return settings.shortBreakDuration * 60 * 1000;
       case 'longBreak':
         return settings.longBreakDuration * 60 * 1000;
       default:
-        return settings.pomodoroDuration * 60 * 1000;
+        return settings.pomodoroDuration * 60 * 1000 + flowBonus;
     }
-  }, [timer.mode, settings]);
+  }, [timer.mode, timer.flowModeEnabled, settings]);
 
   // Progress hesapla (0 to 1)
-  const progress = 1 - timer.timeLeftMs / getTotalDuration();
+  const progress = Math.max(0, Math.min(1, 1 - timer.timeLeftMs / getTotalDuration()));
 
   // Cleanup on unmount
   useEffect(() => {
@@ -258,5 +276,6 @@ export function useTimer() {
     resetTimer,
     extendTimerBy5,
     switchMode,
+    handleFlowToggle,
   };
 }

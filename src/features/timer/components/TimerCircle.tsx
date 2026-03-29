@@ -35,8 +35,10 @@ const TimerCircle: React.FC<TimerCircleProps> = ({
   mode,
   isRunning,
 }) => {
-  const offset = CIRCUMFERENCE * (1 - progress);
-  const colors = MODE_COLORS[mode];
+  const safeProgress = isNaN(progress) || !isFinite(progress) ? 0 : Math.max(0, Math.min(1, progress));
+  const offset = CIRCUMFERENCE * (1 - safeProgress);
+  const colors = MODE_COLORS[mode] || MODE_COLORS.pomodoro;
+  const safeTimeLeft = isNaN(timeLeftMs) ? 0 : timeLeftMs;
 
   return (
     <div className={`timer-circle-wrapper ${isRunning ? 'breathing' : ''}`}>
@@ -72,7 +74,7 @@ const TimerCircle: React.FC<TimerCircleProps> = ({
         </defs>
       </svg>
       <div className="timer-display">
-        <span className="timer-time">{formatTime(timeLeftMs)}</span>
+        <span className="timer-time">{formatTime(safeTimeLeft)}</span>
         <span className={`timer-mode-label mode-${mode}`}>
           {MODE_LABELS[mode]}
         </span>

@@ -36,7 +36,7 @@ export interface AppState {
   settings: SettingsState;
 
   // Timer Actions
-  setTimerMode: (mode: TimerMode) => void;
+  setTimerMode: (mode: TimerMode, resetFlow?: boolean) => void;
   setTimerStatus: (status: TimerStatus) => void;
   setTimeLeft: (ms: number) => void;
   incrementSessions: () => void;
@@ -83,7 +83,7 @@ export const useAppStore = create<AppState>()(
       settings: { ...DEFAULT_SETTINGS },
 
       // Timer Actions
-      setTimerMode: (mode) => {
+      setTimerMode: (mode, resetFlow = false) => {
         const { settings } = get();
         let duration: number;
         switch (mode) {
@@ -103,6 +103,7 @@ export const useAppStore = create<AppState>()(
             mode,
             status: 'idle',
             timeLeftMs: duration * 60 * 1000,
+            ...(resetFlow ? { flowModeEnabled: false } : {}),
           },
         });
       },
@@ -127,13 +128,17 @@ export const useAppStore = create<AppState>()(
       setCurrentTaskName: (name) =>
         set({ timer: { ...get().timer, currentTaskName: name } }),
 
-      toggleFlowMode: () =>
+      toggleFlowMode: () => {
+        const current = get().timer;
+        const delta = current.flowModeEnabled ? -5 * 60 * 1000 : 5 * 60 * 1000;
         set({
           timer: {
-            ...get().timer,
-            flowModeEnabled: !get().timer.flowModeEnabled,
+            ...current,
+            flowModeEnabled: !current.flowModeEnabled,
+            timeLeftMs: Math.max(0, current.timeLeftMs + delta),
           },
-        }),
+        });
+      },
 
       extendTimer: (minutes) =>
         set({

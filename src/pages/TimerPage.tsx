@@ -3,7 +3,6 @@ import {
   IonContent,
 } from '@ionic/react';
 import { useTimer } from '../features/timer/hooks/useTimer';
-import { useAppStore } from '../stores/appStore';
 import TimerCircle from '../features/timer/components/TimerCircle';
 import './TimerPage.css';
 
@@ -16,9 +15,8 @@ const TimerPage: React.FC = () => {
     resetTimer,
     extendTimerBy5,
     switchMode,
+    handleFlowToggle,
   } = useTimer();
-
-  const toggleFlowMode = useAppStore((s) => s.toggleFlowMode);
 
   const showExtend = timer.status === 'running' && timer.timeLeftMs < 60 * 1000;
 
@@ -102,7 +100,7 @@ const TimerPage: React.FC = () => {
           <div className="flow-mode-section">
             <button
               className={`flow-btn ${timer.flowModeEnabled ? 'active neon-glow' : ''}`}
-              onClick={toggleFlowMode}
+              onClick={handleFlowToggle}
             >
               <span className="flow-icon">⚡</span>
               <span className="flow-text">Flow Modu</span>
