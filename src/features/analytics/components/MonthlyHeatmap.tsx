@@ -7,6 +7,7 @@ interface HeatmapCell {
   date: string;
   isCurrentMonth: boolean;
   totalFocus: number;
+  sessionsCount: number;
 }
 
 const MonthlyHeatmap: React.FC = () => {
@@ -53,6 +54,7 @@ const MonthlyHeatmap: React.FC = () => {
             date: dStr,
             isCurrentMonth: curr.getMonth() === mm,
             totalFocus: stat ? stat.total_focus_minutes : 0,
+            sessionsCount: stat ? stat.sessions_count : 0,
           });
 
           curr.setDate(curr.getDate() + 1);
@@ -143,9 +145,15 @@ const MonthlyHeatmap: React.FC = () => {
       {selectedCell && (
         <div className="heatmap-detail-card glow fade-in">
           <div className="detail-date">{formatDateLabel(selectedCell.date)}</div>
-          <div className="detail-duration">
-            <span className="leaf-icon">🍃</span> 
-            {formatMinsToHours(selectedCell.totalFocus)} focused
+          <div className="detail-stats">
+            <div className="detail-duration">
+              <span className="leaf-icon">🍃</span> 
+              {formatMinsToHours(selectedCell.totalFocus)}
+            </div>
+            <div className="detail-sessions">
+              <span className="session-icon">🍅</span>
+              {selectedCell.sessionsCount} sessions
+            </div>
           </div>
         </div>
       )}
