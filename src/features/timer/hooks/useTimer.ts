@@ -20,6 +20,7 @@ export function useTimer() {
     incrementSessions,
     extendTimer,
     toggleFlowMode,
+    setEnergyLevel,
   } = useAppStore();
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -82,6 +83,7 @@ export function useTimer() {
       }
 
       incrementSessions();
+      setEnergyLevel(null); // Otomatik olarak sıfırla ki sonraki seansta tekrar sorsun
 
       // Flow mode aktifse: Otomatik yeni pomodoro başlat
       if (currentTimer.flowModeEnabled) {

@@ -8,14 +8,14 @@ import './EnergySuggestionCard.css';
 const EnergySuggestionCard: React.FC = () => {
   const { timer, settings, setEnergyLevel, updateSettings, setTimeLeft } = useAppStore();
   
-  // Sadece idle (durumunda) ve pomodoro (odak) modundaysa göster
-  if (timer.status !== 'idle' || timer.mode !== 'pomodoro') {
-    return null;
-  }
-
   const [hoverLevel, setHoverLevel] = useState<number | null>(null);
   const [suggestion, setSuggestion] = useState<InstantEnergySuggestion | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+
+  // Sadece idle ve pomodoro modundaysa göster
+  if (timer.status !== 'idle' || timer.mode !== 'pomodoro') {
+    return null;
+  }
 
   const handleLevelClick = (level: number) => {
     setSelectedLevel(level);

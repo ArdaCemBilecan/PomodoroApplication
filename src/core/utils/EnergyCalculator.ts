@@ -131,9 +131,9 @@ export const calculateOptimalFlow = (
       };
     case 3:
       return {
-        focusDuration: defaultFocus,
-        shortBreakDuration: defaultBreak,
-        message: 'Normal enerjidesin! Kendi belirlediğin standart ayarlarla devam etmek en iyisi.',
+        focusDuration: 25,
+        shortBreakDuration: 5,
+        message: 'Normal enerjidesin! 25 dakikalık standart Pomodoro seansıyla devam etmek en iyisi.',
       };
     case 4:
       return {
