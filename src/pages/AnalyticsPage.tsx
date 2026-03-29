@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonPage, IonContent } from '@ionic/react';
 import { database } from '../core/capacitor/Database';
-import MonthlyBarChart from '../features/analytics/components/MonthlyBarChart';
+import MonthlyHeatmap from '../features/analytics/components/MonthlyHeatmap';
 import './AnalyticsPage.css';
 
 const AnalyticsPage: React.FC = () => {
@@ -39,7 +39,7 @@ const AnalyticsPage: React.FC = () => {
           </div>
 
           <div className="chart-placeholder">
-            <MonthlyBarChart />
+            <MonthlyHeatmap />
           </div>
         </div>
       </IonContent>
