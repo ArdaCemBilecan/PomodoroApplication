@@ -1,3 +1,6 @@
+/* Inter font import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
 /* Ionic Theme Variables - Forest / Nature Palette */
 :root {
   /* Primary: Forest Green */
@@ -109,5 +112,6 @@ ion-content {
   --background: linear-gradient(160deg, #1a2f1a 0%, #0d1117 100%);
 }
 
-/* Inter font import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+ion-content {
+  --background: linear-gradient(160deg, #1a2f1a 0%, #0d1117 100%);
+}
