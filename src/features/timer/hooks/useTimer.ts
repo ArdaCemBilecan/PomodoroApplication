@@ -55,7 +55,7 @@ export function useTimer() {
           start_time: toISOString(new Date(startTimeRef.current)),
           duration: currentSettings.pomodoroDuration,
           task_name: currentTimer.currentTaskName || null,
-          energy_level: 3,
+          energy_level: currentTimer.energyLevel || 3,
           completed: true,
           flow_mode: currentTimer.flowModeEnabled,
         });

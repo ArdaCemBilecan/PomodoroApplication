@@ -10,6 +10,7 @@ import { musicalNotesOutline, closeOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { useTimer } from '../features/timer/hooks/useTimer';
 import TimerCircle from '../features/timer/components/TimerCircle';
+import EnergySuggestionCard from '../features/timer/components/EnergySuggestionCard';
 import AudioMixer from '../features/audio/components/AudioMixer';
 import './TimerPage.css';
 
@@ -62,6 +63,9 @@ const TimerPage: React.FC = () => {
               Uzun Mola
             </button>
           </div>
+
+          {/* Energy Suggestion / Tracking Card */}
+          <EnergySuggestionCard />
 
           {/* Timer Circle */}
           <TimerCircle

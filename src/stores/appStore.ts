@@ -17,6 +17,7 @@ export interface TimerState {
   sessionsCompleted: number;
   currentTaskName: string;
   flowModeEnabled: boolean;
+  energyLevel: number | null; // 1 to 5
 }
 
 export interface SettingsState {
@@ -43,6 +44,7 @@ export interface AppState {
   setCurrentTaskName: (name: string) => void;
   toggleFlowMode: () => void;
   extendTimer: (minutes: number) => void;
+  setEnergyLevel: (level: number | null) => void;
 
   // Settings Actions
   updateSettings: (settings: Partial<SettingsState>) => void;
@@ -61,6 +63,7 @@ const DEFAULT_TIMER: TimerState = {
   sessionsCompleted: 0,
   currentTaskName: '',
   flowModeEnabled: false,
+  energyLevel: null,
 };
 
 const DEFAULT_SETTINGS: SettingsState = {
@@ -145,6 +148,9 @@ export const useAppStore = create<AppState>()(
             timeLeftMs: get().timer.timeLeftMs + minutes * 60 * 1000,
           },
         }),
+
+      setEnergyLevel: (level) =>
+        set({ timer: { ...get().timer, energyLevel: level } }),
 
       // Settings Actions
       updateSettings: (newSettings) =>

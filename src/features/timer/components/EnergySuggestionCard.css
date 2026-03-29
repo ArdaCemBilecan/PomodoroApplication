@@ -1,0 +1,159 @@
+.energy-card {
+  background: rgba(14, 25, 20, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 16px;
+  margin: 16px auto;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.energy-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 12px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.energy-subtitle {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 12px 0 0 0;
+}
+
+.energy-bolts {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.bolt-icon {
+  font-size: 32px;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.bolt-icon:hover {
+  transform: scale(1.1) translateY(-2px);
+}
+
+.bolt-icon.active {
+  color: #eab308; /* vibrant yellow for lightning */
+  filter: drop-shadow(0 0 12px rgba(234, 179, 8, 0.6));
+}
+
+.suggestion-message-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.suggestion-icon {
+  font-size: 28px;
+  color: #eab308;
+  flex-shrink: 0;
+}
+
+.suggestion-icon.glow {
+  filter: drop-shadow(0 0 8px rgba(234, 179, 8, 0.8));
+}
+
+.suggestion-text {
+  font-size: 13px;
+  color: #f1f5f9;
+  margin: 0;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.suggestion-details {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.detail-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.detail-badge.highlight {
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.suggestion-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-reject {
+  flex: 1;
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.btn-accept {
+  flex: 2;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-reject:active, .btn-accept:active {
+  transform: scale(0.95);
+}
+
+.energy-active-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(0,0,0,0.3);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #eab308;
+  width: fit-content;
+  margin: 8px auto;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  font-weight: 600;
+}
+
+.energy-icon-small {
+  font-size: 16px;
+}
+
+.fade-in {
+  animation: fadeInSoft 0.4s ease-out;
+}
+
+@keyframes fadeInSoft {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -98,3 +98,60 @@ export async function calculateEnergySuggestion(): Promise<EnergySuggestion> {
     };
   }
 }
+
+export interface InstantEnergySuggestion {
+  focusDuration: number;
+  shortBreakDuration: number;
+  message: string;
+}
+
+/**
+ * Kullanıcı enerji seviyesine (1-5) göre anlık optimal zaman dilimlerini hesaplar.
+ * @param level Enerji seviyesi (1: Tükenmiş, 5: Çok Yüksek)
+ * @param defaultFocus Kullanıcının mağaza ayarındaki genel odaklanma süresi
+ * @param defaultBreak Kullanıcının mağaza ayarındaki genel mola süresi
+ */
+export const calculateOptimalFlow = (
+  level: number,
+  defaultFocus: number,
+  defaultBreak: number
+): InstantEnergySuggestion => {
+  switch (level) {
+    case 1:
+      return {
+        focusDuration: 10,
+        shortBreakDuration: 5,
+        message: 'Tükenmiş görünüyorsun. Yorucu bir seans yerine ısınma niteliğinde 10 dakikalık hızlı bir odaklanma yapalım.',
+      };
+    case 2:
+      return {
+        focusDuration: 15,
+        shortBreakDuration: 5,
+        message: 'Enerjin biraz düşük. Kendini zorlamak yerine 15 dakikalık hafif bir seansla başlamaya ne dersin?',
+      };
+    case 3:
+      return {
+        focusDuration: defaultFocus,
+        shortBreakDuration: defaultBreak,
+        message: 'Normal enerjidesin! Kendi belirlediğin standart ayarlarla devam etmek en iyisi.',
+      };
+    case 4:
+      return {
+        focusDuration: 40,
+        shortBreakDuration: 10,
+        message: 'Harika hissediyorsun! Odak noktanı kaybetmeden 40 dakikalık derin bir çalışmaya var mısın?',
+      };
+    case 5:
+      return {
+        focusDuration: 50,
+        shortBreakDuration: 10,
+        message: 'Enerjin tavan yapmış! Akışa girelim ve seni hiç bölmeyelim. 50 dakikalık devasa bir seans başlasın!',
+      };
+    default:
+      return {
+        focusDuration: defaultFocus,
+        shortBreakDuration: defaultBreak,
+        message: 'Standart ayarlarla devam edelim.',
+      };
+  }
+};
