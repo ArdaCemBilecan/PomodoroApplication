@@ -1,10 +1,20 @@
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { 
+  IonApp, 
+  IonRouterOutlet,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonIcon,
+  IonLabel
+} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router-dom';
+import { timerOutline, barChartOutline } from 'ionicons/icons';
 import { useEffect } from 'react';
 
 /* Pages */
 import TimerPage from './pages/TimerPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 
 /* Core init */
 import { database } from './core/capacitor/Database';
@@ -33,12 +43,27 @@ const App: React.FC = () => {
     <IonApp>
       <RadioPlayer />
       <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/timer" component={TimerPage} />
-          <Route exact path="/">
-            <Redirect to="/timer" />
-          </Route>
-        </IonRouterOutlet>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/timer" component={TimerPage} />
+            <Route exact path="/analytics" component={AnalyticsPage} />
+            <Route exact path="/">
+              <Redirect to="/timer" />
+            </Route>
+          </IonRouterOutlet>
+          
+          <IonTabBar slot="bottom" className="app-tab-bar">
+            <IonTabButton tab="timer" href="/timer">
+              <IonIcon icon={timerOutline} />
+              <IonLabel>Sayaç</IonLabel>
+            </IonTabButton>
+            
+            <IonTabButton tab="analytics" href="/analytics">
+              <IonIcon icon={barChartOutline} />
+              <IonLabel>İstatistik</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
       </IonReactRouter>
     </IonApp>
   );

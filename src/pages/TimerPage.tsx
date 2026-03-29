@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useTimer } from '../features/timer/hooks/useTimer';
 import TimerCircle from '../features/timer/components/TimerCircle';
 import EnergySuggestionCard from '../features/timer/components/EnergySuggestionCard';
+import BreathingGuide from '../features/wellness/components/BreathingGuide';
 import AudioMixer from '../features/audio/components/AudioMixer';
 import './TimerPage.css';
 
@@ -64,8 +65,18 @@ const TimerPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Energy Suggestion / Tracking Card */}
+          {/* Energy Suggestion (Pomodoro) */}
           <EnergySuggestionCard />
+
+          {/* Break Reminders & Breathing Guide */}
+          {timer.mode === 'longBreak' && (
+            <div className="movement-reminder fade-in">
+              🌿 Lütfen oturduğunuz yerden kalkın ve azıcık hareket edin! Bedeninizin de molaya ihtiyacı var.
+            </div>
+          )}
+          {timer.mode !== 'pomodoro' && (
+            <BreathingGuide />
+          )}
 
           {/* Timer Circle */}
           <TimerCircle

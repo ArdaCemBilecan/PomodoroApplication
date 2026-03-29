@@ -1,0 +1,76 @@
+.breathing-guide-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px auto;
+}
+
+.breathing-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid rgba(16, 185, 129, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s ease, border-color 1s ease;
+}
+
+/* Inhale Phase: Grow the circle to visually represent taking air in */
+.breathing-circle.inhale {
+  transform: scale(1.3);
+  background: rgba(16, 185, 129, 0.3);
+  border-color: rgba(16, 185, 129, 0.8);
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+}
+
+/* Hold Phase: Keep it big, switch to a calmer color or hold tightly */
+.breathing-circle.hold {
+  transform: scale(1.3);
+  background: rgba(56, 189, 248, 0.3); /* sky blue */
+  border-color: rgba(56, 189, 248, 0.8);
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.5);
+}
+
+/* Exhale Phase: Shrink back down to neutral */
+.breathing-circle.exhale {
+  transform: scale(1);
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.breathing-content {
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+  transition: transform 1s ease;
+}
+
+/* Counteracts the circle scaling so text doesn't warp massively */
+.breathing-circle.inhale .breathing-content,
+.breathing-circle.hold .breathing-content {
+  transform: scale(0.76); 
+}
+
+.breathing-content h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.breathing-content h1.breath-timer {
+  font-size: 32px;
+  margin: 4px 0 0 0;
+  font-weight: 700;
+}
+
+.breath-subtitle {
+  font-size: 11px;
+  color: #c2c2c2;
+  margin: 4px 0 0 0;
+}

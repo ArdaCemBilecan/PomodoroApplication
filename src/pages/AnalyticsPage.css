@@ -1,0 +1,101 @@
+.analytics-page {
+  --background: linear-gradient(160deg, #1a2f1a 0%, #0d1117 100%);
+  color: #f1f5f9;
+}
+
+.analytics-container {
+  padding: 24px 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.analytics-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+.analytics-subtitle {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 4px 0 24px 0;
+}
+
+.stats-highlight-card {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.stats-highlight-card h3 {
+  font-size: 14px;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.stats-highlight-card h2 {
+  font-size: 42px;
+  margin: 0;
+  color: #fff;
+  font-weight: 800;
+}
+
+.chart-placeholder {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+}
+
+/* Tab Bar Override Styles */
+/* Placed here so it applies globally when Analytics is loaded, better in variables.css but okay for now */
+ion-tab-bar.app-tab-bar {
+  --background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-tab-button {
+  --color: #64748b;
+  --color-selected: #10b981;
+}
+
+ion-tab-button ion-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+  transition: transform 0.2s ease;
+}
+
+ion-tab-button.tab-selected ion-icon {
+  transform: scale(1.15) translateY(-2px);
+  filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.4));
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.glow {
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.15);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
