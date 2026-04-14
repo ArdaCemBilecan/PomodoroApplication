@@ -13,6 +13,7 @@ import TimerCircle from '../features/timer/components/TimerCircle';
 import EnergySuggestionCard from '../features/timer/components/EnergySuggestionCard';
 import BreathingGuide from '../features/wellness/components/BreathingGuide';
 import AudioMixer from '../features/audio/components/AudioMixer';
+import TodoPanel from '../features/todo/components/TodoPanel';
 import './TimerPage.css';
 
 const TimerPage: React.FC = () => {
@@ -33,6 +34,9 @@ const TimerPage: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen className="timer-page">
+        {/* Todo Panel - slides in from left */}
+        <TodoPanel />
+
         <div className="timer-container">
           {/* Floating leaves background */}
           <div className="nature-bg">

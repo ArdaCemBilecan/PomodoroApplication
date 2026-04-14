@@ -21,6 +21,7 @@ import { database } from './core/capacitor/Database';
 import { backgroundTimer } from './core/capacitor/BackgroundTimer';
 import { audioEngine } from './core/capacitor/AudioEngine';
 import { initDBSync } from './stores/dbSync';
+import { AdService } from './core/capacitor/AdService';
 import RadioPlayer from './features/audio/components/RadioPlayer';
 
 const App: React.FC = () => {
@@ -31,7 +32,13 @@ const App: React.FC = () => {
         await backgroundTimer.initialize();
         audioEngine.initialize();
         initDBSync();
+        await AdService.initialize();
         console.log('[App] All services initialized');
+        
+        // Show App Open Ad
+        setTimeout(() => {
+          AdService.showAppOpenAd();
+        }, 1000); // Slight delay for UI to paint
       } catch (error) {
         console.error('[App] Initialization failed:', error);
       }

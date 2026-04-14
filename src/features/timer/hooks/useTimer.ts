@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useAppStore, type TimerMode } from '../../../stores/appStore';
 import { database, type SessionRecord } from '../../../core/capacitor/Database';
 import { backgroundTimer } from '../../../core/capacitor/BackgroundTimer';
+import { AdService } from '../../../core/capacitor/AdService';
 import { getTodayDate, toISOString } from '../../../core/utils/TimeUtils';
 
 export function useTimer() {
@@ -68,7 +69,7 @@ export function useTimer() {
           `${today}T23:59:59`
         );
         const totalMinutes = todaySessions.reduce((sum: number, s: SessionRecord) => sum + s.duration, 0);
-        
+
         await database.upsertDailyStat({
           date: today,
           total_focus_minutes: totalMinutes,
@@ -80,6 +81,22 @@ export function useTimer() {
         console.log('[Timer] Session saved to DB');
       } catch (error) {
         console.warn('[Timer] Session save failed:', error);
+      }
+
+      // AdMob Milestones (Her 10 seansta bir göster)
+      try {
+        const adCountStr = localStorage.getItem('admob_session_counter') || '0';
+        let adCount = parseInt(adCountStr, 10);
+        adCount++;
+
+        if (adCount >= 10) {
+          console.log('[AdMob] Milestone 10 reached, showing Ad.');
+          AdService.showSessionMilestoneAd();
+          adCount = 0; // reset
+        }
+        localStorage.setItem('admob_session_counter', adCount.toString());
+      } catch (adError) {
+        console.warn('[AdMob] Counter error:', adError);
       }
 
       incrementSessions();
@@ -113,7 +130,7 @@ export function useTimer() {
   // Timer başlat
   const startTimer = useCallback(() => {
     const currentTimeLeft = useAppStore.getState().timer.timeLeftMs;
-    
+
     // Eğer zaten çalışıyorsa, restart yapma
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -214,15 +231,15 @@ export function useTimer() {
   const handleFlowToggle = useCallback(() => {
     const isCurrentlyEnabled = useAppStore.getState().timer.flowModeEnabled;
     const delta = isCurrentlyEnabled ? -5 * 60 * 1000 : 5 * 60 * 1000;
-    
+
     // Store'daki toggle'ı çağır (timeLeftMs'i de günceller)
     toggleFlowMode();
-    
+
     // Eğer timer çalışıyorsa, endTimeRef'i de güncelle
     if (intervalRef.current) {
       endTimeRef.current += delta;
     }
-    
+
     console.log(`[Timer] Flow mode ${isCurrentlyEnabled ? 'disabled' : 'enabled'} (${isCurrentlyEnabled ? '-5' : '+5'} min)`);
   }, [toggleFlowMode]);
 
