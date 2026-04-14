@@ -41,7 +41,9 @@ export class AdService {
     }
 
     try {
-      const adId = Capacitor.getPlatform() === 'ios' ? TEST_APP_OPEN_AD_ID_IOS : TEST_APP_OPEN_AD_ID_ANDROID;
+      // We must use the Interstitial Ad ID here since we are calling prepareInterstitial.
+      // AdMob fails to load if an App Open Ad ID is used with the Interstitial method.
+      const adId = Capacitor.getPlatform() === 'ios' ? TEST_INTERSTITIAL_AD_ID_IOS : TEST_INTERSTITIAL_AD_ID_ANDROID;
       
       const options: AdOptions = {
         adId: adId,
