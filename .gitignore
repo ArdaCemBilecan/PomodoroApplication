@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# AdMob keys (NEVER commit real keys)
+src/config/adKeys.ts
+
+# Android local config
+local.properties
+logcat.txt
