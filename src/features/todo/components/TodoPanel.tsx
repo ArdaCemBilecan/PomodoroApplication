@@ -16,6 +16,16 @@ const TodoPanel: React.FC = () => {
   const [newTodoText, setNewTodoText] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Dragging state
+  const [fabPos, setFabPos] = useState<{ x: number; y: number } | null>(null);
+  const dragRef = useRef<{ isDragging: boolean; startX: number; startY: number; initialX: number; initialY: number }>({
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    initialX: 0,
+    initialY: 0
+  });
+
   // Load from localStorage on mount
   useEffect(() => {
     try {
@@ -23,8 +33,12 @@ const TodoPanel: React.FC = () => {
       if (stored) {
         setTodos(JSON.parse(stored));
       }
+      const savedPos = localStorage.getItem('todo_fab_pos');
+      if (savedPos) {
+        setFabPos(JSON.parse(savedPos));
+      }
     } catch (e) {
-      console.warn('[TodoPanel] Failed to load todos', e);
+      console.warn('[TodoPanel] Failed to load settings', e);
     }
   }, []);
 
@@ -72,12 +86,64 @@ const TodoPanel: React.FC = () => {
   const completedCount = todos.filter(t => t.completed).length;
   const remainingCount = todos.length - completedCount;
 
+  // Draggable FAB handlers
+  const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    dragRef.current = {
+      isDragging: false,
+      startX: e.clientX,
+      startY: e.clientY,
+      initialX: rect.left,
+      initialY: rect.top,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+    
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+    
+    // Threshold to distinguish drag from click
+    if (!dragRef.current.isDragging && Math.sqrt(dx * dx + dy * dy) > 10) {
+      dragRef.current.isDragging = true;
+    }
+    
+    if (dragRef.current.isDragging) {
+      const newX = dragRef.current.initialX + dx;
+      const newY = dragRef.current.initialY + dy;
+      
+      const safeX = Math.max(0, Math.min(newX, window.innerWidth - e.currentTarget.offsetWidth));
+      const safeY = Math.max(0, Math.min(newY, window.innerHeight - e.currentTarget.offsetHeight));
+      
+      setFabPos({ x: safeX, y: safeY });
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    e.currentTarget.releasePointerCapture(e.pointerId);
+    if (dragRef.current.isDragging) {
+      // It was a drag, persist new position
+      if (fabPos) {
+        localStorage.setItem('todo_fab_pos', JSON.stringify(fabPos));
+      }
+    } else {
+      // It was a click
+      setIsOpen(true);
+    }
+    dragRef.current.isDragging = false;
+  };
+
   return (
     <>
-      {/* Prominent FAB button (bottom-left, always visible) */}
+      {/* Prominent FAB button (draggable) */}
       <button
         className={`todo-fab ${isOpen ? 'fab-hidden' : ''}`}
-        onClick={() => setIsOpen(true)}
+        style={fabPos ? { left: fabPos.x + 'px', top: fabPos.y + 'px', bottom: 'auto' } : undefined}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
       >
         <span className="fab-icon">📋</span>
         <span className="fab-label">Tasks</span>
