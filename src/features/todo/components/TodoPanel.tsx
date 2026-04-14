@@ -70,18 +70,19 @@ const TodoPanel: React.FC = () => {
   };
 
   const completedCount = todos.filter(t => t.completed).length;
+  const remainingCount = todos.length - completedCount;
 
   return (
     <>
-      {/* Toggle Tab (always visible on the left edge) */}
+      {/* Prominent FAB button (bottom-left, always visible) */}
       <button
-        className={`todo-toggle-tab ${isOpen ? 'tab-hidden' : ''}`}
+        className={`todo-fab ${isOpen ? 'fab-hidden' : ''}`}
         onClick={() => setIsOpen(true)}
-        title="To-Do List"
       >
-        <span className="tab-icon">📝</span>
-        {todos.length > 0 && (
-          <span className="tab-badge">{todos.length - completedCount}</span>
+        <span className="fab-icon">📋</span>
+        <span className="fab-label">Tasks</span>
+        {remainingCount > 0 && (
+          <span className="fab-badge">{remainingCount}</span>
         )}
       </button>
 
