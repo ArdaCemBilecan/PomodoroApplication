@@ -14,9 +14,11 @@ import EnergySuggestionCard from '../features/timer/components/EnergySuggestionC
 import BreathingGuide from '../features/wellness/components/BreathingGuide';
 import AudioMixer from '../features/audio/components/AudioMixer';
 import TodoPanel from '../features/todo/components/TodoPanel';
+import { useAppStore } from '../stores/appStore';
 import './TimerPage.css';
 
 const TimerPage: React.FC = () => {
+  const { setRadioId } = useAppStore();
   const {
     timer,
     settings,
@@ -163,7 +165,10 @@ const TimerPage: React.FC = () => {
           <div style={{ padding: '16px', background: 'transparent' }}>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
               <button 
-                onClick={() => setShowMixerModal(false)}
+                onClick={() => {
+                  setRadioId(null);
+                  setShowMixerModal(false);
+                }}
                 style={{ background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff', padding: '8px', borderRadius: '50%' }}
               >
                 <IonIcon icon={closeOutline} size="large" />
